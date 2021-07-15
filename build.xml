@@ -1,0 +1,75 @@
+<project name="MyProject" default="run" basedir=".">
+    <description>
+      simple example build file
+    </description>
+    <!-- set global properties for this build -->
+    <property name="src" location="src"/>
+    <property name="build" location="build"/>
+    <property name="dist" location="dist" />
+
+	<target name="init">
+         <tstamp/>
+         <!-- Create the build directory structure used by compile -->
+         <mkdir dir="${build}"/>
+         <mkdir dir="${src}" />
+  	</target>
+
+    <path id = "classpath.base">
+        <pathelement location="${src}" />
+    </path>
+
+   <target name="path">
+      <echo message="${toString:classpath.base}"/>
+   </target> 
+
+    <target name="test" depends="compile">
+        <echo message="${toString:classpath.base}" />
+        <echo message="${toString:classpath.test}" />
+        <junit>
+            <classpath refid = "classpath.test" />
+            <test name = "tests.CalculatorTest" />
+            <formatter type="brief" usefile="false" />
+        </junit>
+    </target>
+
+    <target name="compile" depends="init"
+          description="compile the source">
+        <!-- Compile the Java code from ${src} into ${build} -->
+        <path refid = "classpath.base" />
+        <javac includeantruntime="true" srcdir="${src}" destdir="${build}">
+            <classpath>
+                <path refid="classpath.base" />
+            </classpath>
+        </javac>
+    </target>
+
+	<target name="clean"
+        description="clean up">
+        <!-- Delete the ${build} directory trees -->
+        <delete dir="${build}"/>
+        <delete dir="${dist}"/>
+    </target>
+
+
+    <target name="dist" depends="compile"
+        description="generate the distribution">
+        <manifest file="build/MANIFEST.MF">
+            <attribute name="Main-Class" value="BSPackage.BattleshipMain" />
+        </manifest>
+        <mkdir dir="${dist}/lib" />
+        <jar jarfile="${dist}/lib/project.jar" basedir="${build}" manifest ="build/MANIFEST.MF" />
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="BSPackage.BattleshipMain">
+            <classpath>
+                <pathelement path="${build}" />
+            </classpath>
+        </java>
+    </target>
+
+    <target name="runjar" depends="dist">
+        <java jar="${dist}/lib/project.jar" fork="true" />
+    </target>
+
+</project>
