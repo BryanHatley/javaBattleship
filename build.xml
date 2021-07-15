@@ -22,16 +22,6 @@
       <echo message="${toString:classpath.base}"/>
    </target> 
 
-    <target name="test" depends="compile">
-        <echo message="${toString:classpath.base}" />
-        <echo message="${toString:classpath.test}" />
-        <junit>
-            <classpath refid = "classpath.test" />
-            <test name = "tests.CalculatorTest" />
-            <formatter type="brief" usefile="false" />
-        </junit>
-    </target>
-
     <target name="compile" depends="init"
           description="compile the source">
         <!-- Compile the Java code from ${src} into ${build} -->
