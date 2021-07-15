@@ -20,7 +20,7 @@
 
    <target name="path">
       <echo message="${toString:classpath.base}"/>
-   </target> 
+   </target>
 
     <target name="compile" depends="init"
           description="compile the source">
@@ -47,7 +47,7 @@
             <attribute name="Main-Class" value="BSPackage.BattleshipMain" />
         </manifest>
         <mkdir dir="${dist}/lib" />
-        <jar jarfile="${dist}/lib/project.jar" basedir="${build}" manifest ="build/MANIFEST.MF" />
+        <jar jarfile="${dist}/lib/BattleShip.jar" basedir="${build}" manifest ="build/MANIFEST.MF" />
     </target>
 
     <target name="run" depends="compile">
@@ -59,7 +59,7 @@
     </target>
 
     <target name="runjar" depends="dist">
-        <java jar="${dist}/lib/project.jar" fork="true" />
+        <java jar="${dist}/lib/BattleShip.jar" fork="true" />
     </target>
 
 </project>
